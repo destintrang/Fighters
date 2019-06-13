@@ -6,16 +6,16 @@ public class Fighter : MonoBehaviour
 {
 
     public int pos;
+    public OptionManager o;
 
-    // Start is called before the first frame update
-    void Start()
+    
+    public void Weaken ()
     {
-        
+        o.Weaken();
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool CanFight ()
     {
-        
+        return o.CanFight();
     }
 }

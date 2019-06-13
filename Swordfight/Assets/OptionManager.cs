@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class OptionManager : MonoBehaviour
 {
+    List<GameManager.Move> available = new List<GameManager.Move>{ GameManager.Move.STRIKE, GameManager.Move.HEAVY, GameManager.Move.CRIPPLE,
+                                    GameManager.Move.BLOCK, GameManager.Move.GRAB, GameManager.Move.SHOVE,
+                                    GameManager.Move.COUNTER, GameManager.Move.LEAP, };
 
     public GameObject strikeButton;
     public GameObject heavyButton;
@@ -28,6 +31,46 @@ public class OptionManager : MonoBehaviour
 
     public void DisableOption (GameManager.Move m)
     {
+        switch (m)
+        {
+            case GameManager.Move.STRIKE:
+                strikeButton.SetActive(false);
+                break;
+            case GameManager.Move.HEAVY:
+                heavyButton.SetActive(false);
+                break;
+            case GameManager.Move.CRIPPLE:
+                crippleButton.SetActive(false);
+                break;
+            case GameManager.Move.BLOCK:
+                blockButton.SetActive(false);
+                break;
+            case GameManager.Move.GRAB:
+                grabButton.SetActive(false);
+                break;
+            case GameManager.Move.SHOVE:
+                shoveButton.SetActive(false);
+                break;
+            case GameManager.Move.COUNTER:
+                counterButton.SetActive(false);
+                break;
+            case GameManager.Move.LEAP:
+                leapButton.SetActive(false);
+                break;
+        }
+    }
 
+    public void Weaken ()
+    {
+        GameManager.Move r = available[Random.Range(0, available.Count)];
+        DisableOption(r);
+        available.Remove(r);
+    }
+
+
+    public bool CanFight()
+    {
+        if (available.Count == 0) { return false; }
+        return true;
     }
 }

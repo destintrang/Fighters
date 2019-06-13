@@ -1830,6 +1830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 797975411}
+  - component: {fileID: 797975412}
   m_Layer: 5
   m_Name: P1 Buttons
   m_TagString: Untagged
@@ -1864,6 +1865,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &797975412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797975410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 437053b95f5e7d048bb852a01a9bb446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strikeButton: {fileID: 179896120}
+  heavyButton: {fileID: 861001507}
+  crippleButton: {fileID: 277967895}
+  blockButton: {fileID: 208359766}
+  grabButton: {fileID: 1163162574}
+  shoveButton: {fileID: 94323043}
+  counterButton: {fileID: 1757344584}
+  leapButton: {fileID: 534475220}
 --- !u!1 &834771122
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,6 +3186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  o: {fileID: 797975412}
 --- !u!1 &1367921797
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,6 +3197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1367921799}
   - component: {fileID: 1367921798}
+  - component: {fileID: 1367921800}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3217,6 +3240,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1367921800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367921797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5408768980438bd4c921fd1068c09efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1419174927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3411,6 +3446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  o: {fileID: 1995282669}
 --- !u!1 &1490703430
 GameObject:
   m_ObjectHideFlags: 0
@@ -4493,6 +4529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1995282668}
+  - component: {fileID: 1995282669}
   m_Layer: 5
   m_Name: P2 Buttons
   m_TagString: Untagged
@@ -4527,6 +4564,26 @@ RectTransform:
   m_AnchoredPosition: {x: 452, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1995282669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995282667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 437053b95f5e7d048bb852a01a9bb446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strikeButton: {fileID: 736342179}
+  heavyButton: {fileID: 1339867349}
+  crippleButton: {fileID: 625488845}
+  blockButton: {fileID: 66465991}
+  grabButton: {fileID: 1802512206}
+  shoveButton: {fileID: 1604373854}
+  counterButton: {fileID: 1169134356}
+  leapButton: {fileID: 1152092054}
 --- !u!1 &2034027415
 GameObject:
   m_ObjectHideFlags: 0
