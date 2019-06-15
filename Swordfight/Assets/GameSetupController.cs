@@ -7,7 +7,10 @@ using UnityEngine;
 public class GameSetupController : MonoBehaviourPunCallbacks, IPunObservable
 {
 
-    int players = 0;
+    int players;
+
+    public GameObject pOne;
+    public GameObject pTwo;
 
     // This script will be added to any multiplayer scene
     void Start()
@@ -34,7 +37,18 @@ public class GameSetupController : MonoBehaviourPunCallbacks, IPunObservable
             this.photonView.RPC("UpdatePlayerNum", RpcTarget.All);
         }
         */
-        Debug.Log("Creating Player 1");
+        this.photonView.RPC("UpdatePlayerNum", RpcTarget.All);
+        Debug.Log("Creating Player " + PhotonNetwork.CountOfPlayers);
+        if (PhotonNetwork.CountOfPlayers != 2)
+        {
+            print("showing p1 options");
+            pOne.SetActive(true);
+        }
+        else if (PhotonNetwork.CountOfPlayers != 1)
+        {
+            print("showing p2 options");
+            pTwo.SetActive(true);
+        }
         GameObject p = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
     }
 
@@ -42,6 +56,10 @@ public class GameSetupController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void UpdatePlayerNum()
     {
+        if (players == null)
+        {
+            players = 0;
+        }
         players++;
     }
 
@@ -50,16 +68,11 @@ public class GameSetupController : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(players);
-            //stream.SendNext(position);
-            Debug.Log("I am the local client" + GetComponent<PhotonView>().ViewID);
-
         }
         else
         {
 
             players = (int)stream.ReceiveNext();
-            //position = (Vector3)stream.ReceiveNext();
-            Debug.Log("I am the Remote client" + GetComponent<PhotonView>().ViewID);
         }
     }
 }

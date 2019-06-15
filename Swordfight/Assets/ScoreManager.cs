@@ -75,6 +75,10 @@ public class ScoreManager : MonoBehaviour, IPunObservable
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         p1Score = 0;
         p2Score = 0;
+        foreach (OptionManager o in FindObjectsOfType<OptionManager>())
+        {
+            o.ResetOptions();
+        }
         Time.timeScale = 1;
         endCanvas.SetActive(false);
         GameManager.instance.StartNewRound();

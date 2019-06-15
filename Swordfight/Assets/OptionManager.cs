@@ -68,6 +68,19 @@ public class OptionManager : MonoBehaviour
     }
 
 
+    public void ResetOptions ()
+    {
+        strikeButton.SetActive(true);
+        heavyButton.SetActive(true);
+        crippleButton.SetActive(true);
+        blockButton.SetActive(true);
+        grabButton.SetActive(true);
+        shoveButton.SetActive(true);
+        counterButton.SetActive(true);
+        leapButton.SetActive(true);
+    }
+
+
     public bool CanFight()
     {
         if (available.Count == 0) { return false; }

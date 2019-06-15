@@ -3,13 +3,15 @@ using Photon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviourPun
+public class GameManager : MonoBehaviourPun, IPunObservable
 {
 
     public Fighter p1;
     public Fighter p2;
     public int players = 0;
+    Fighter winner = null;
     Fighter loser = null;
 
     public GameObject[] spaces;
@@ -20,10 +22,13 @@ public class GameManager : MonoBehaviourPun
 
     PhotonView PV;
 
+    public Text infoText;
+
 
     public static GameManager instance;
     private void Awake()
     {
+        //PhotonNetwork.OfflineMode = true;
         instance = this;
     }
 
@@ -139,13 +144,13 @@ public class GameManager : MonoBehaviourPun
         }
         else if (p1Move == Move.BLOCK)
         {
-            if (p2Move == Move.STRIKE || p2Move == Move.HEAVY || p2Move == Move.CRIPPLE)
+            if (p2Move == Move.STRIKE  || p2Move == Move.CRIPPLE)
             {
                 MovePlayer(p2, 1);
             }
-            else if (p2Move == Move.CRIPPLE)
+            else if (p2Move == Move.HEAVY)
             {
-
+                MovePlayer(p2, 2);
             }
             else if (p2Move == Move.GRAB)
             {
@@ -208,7 +213,7 @@ public class GameManager : MonoBehaviourPun
             }
             else if (p2Move == Move.BLOCK)
             {
-                MovePlayer(p2, -1);
+                MovePlayer(p2, 1);
             }
             else if (p2Move == Move.COUNTER)
             {
@@ -294,6 +299,18 @@ public class GameManager : MonoBehaviourPun
             {
             }
         }
+
+        string s = "";
+        s += "Player 1: " + p1Move + "! Player 2: " + p2Move + "\n";
+        if (winner)
+        {
+            s += winner.gameObject.name + " prevails!";
+        }
+        else
+        {
+            s += "Stalemate!";
+        }
+        UpdateInfo(s);
     }
 
 
@@ -360,7 +377,9 @@ public class GameManager : MonoBehaviourPun
 
     void MovePlayer (Fighter p, int space)
     {
-        loser = p; 
+        loser = p;
+        if (loser == p1) { winner = p2; }
+        else { winner = p1; }
         p.pos += space;
         if (CheckOutofBounds()) { GameOver(); }
         else { p.transform.position = spaces[p.pos].transform.position; }
@@ -496,26 +515,22 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
+
+    void UpdateInfo (string s)
+    {
+        infoText.text = s;
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            print("sending " + p1Move.ToString() + " and " + p2Move.ToString());
-            stream.SendNext(p1Move);
-            stream.SendNext(p2Move);
-            //stream.SendNext(position);
-            Debug.Log("I am the local client" + GetComponent<PhotonView>().ViewID);
-
+            return;
         }
         else
         {
 
-            p1Move = (GameManager.Move)stream.ReceiveNext();
-            p2Move = (GameManager.Move)stream.ReceiveNext();
-            //position = (Vector3)stream.ReceiveNext();
-            Debug.Log("I am the Remote client" + GetComponent<PhotonView>().ViewID);
+            return;
         }
     }
-
-    
 }
