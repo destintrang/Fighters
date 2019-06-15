@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoBehaviour, IPunObservable
 {
 
     int p1Score = 0;
@@ -70,6 +72,40 @@ public class ScoreManager : MonoBehaviour
 
     public void RestartGame ()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        p1Score = 0;
+        p2Score = 0;
+        Time.timeScale = 1;
+        endCanvas.SetActive(false);
+        GameManager.instance.StartNewRound();
+
+        foreach (Image i in pOnePoints)
+        {
+            i.color = Color.white;
+        }
+        foreach (Image i in pTwoPoints)
+        {
+            i.color = Color.white;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(p1Score);
+            stream.SendNext(p2Score);
+            stream.SendNext(pOnePoints);
+            stream.SendNext(pTwoPoints);
+        }
+        else
+        {
+
+            p1Score = (int)stream.ReceiveNext();
+            p2Score = (int)stream.ReceiveNext();
+
+            pOnePoints = (List<Image>)stream.ReceiveNext();
+            pTwoPoints = (List<Image>)stream.ReceiveNext();
+        }
     }
 }

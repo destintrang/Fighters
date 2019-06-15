@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPun
 {
 
     public Fighter p1;
     public Fighter p2;
+    public int players = 0;
     Fighter loser = null;
 
     public GameObject[] spaces;
@@ -15,11 +18,21 @@ public class GameManager : MonoBehaviour
     Move p1Move = Move.NONE;
     Move p2Move = Move.NONE;
 
+    PhotonView PV;
+
+
+    public static GameManager instance;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         StartNewRound();
+        PhotonView pv = GetComponent<PhotonView>();
+        if (PV) PV.ObservedComponents.Add(this);
     }
 
     // Update is called once per frame
@@ -286,12 +299,12 @@ public class GameManager : MonoBehaviour
 
     Fighter CheckOutofBounds ()
     {
-        if (p1.pos < 0)
+        if (p1 != null && p1.pos < 0)
         {
             //GameOver();
             return p1;
         }
-        else if (p2.pos > 5)
+        else if (p2 != null && p2.pos > 5)
         {
             //GameOver();
             return p2;
@@ -318,11 +331,32 @@ public class GameManager : MonoBehaviour
         StartNewRound();
     }
 
-    void StartNewRound ()
+    public void StartNewRound ()
     {
         MoveTo(p1, 2);
         MoveTo(p2, 3);
     }
+
+
+    public void StartPlayer (GameObject p)
+    {
+        if (!p1)
+        {
+            p1 = p.GetComponent<Fighter>();
+            MoveTo(p1, 2);
+            //this.photonView.RPC("UpdatePlayerNum", RpcTarget.All);
+            
+        }
+        else if (!p2)
+        {
+            p2 = p.GetComponent<Fighter>();
+            MoveTo(p2, 3);
+            //this.photonView.RPC("UpdatePlayerNum", RpcTarget.All);
+        }
+    }
+
+    
+
 
     void MovePlayer (Fighter p, int space)
     {
@@ -354,42 +388,134 @@ public class GameManager : MonoBehaviour
 
     public void Strike(int player)
     {
-        if (player == 1) { p1Move = Move.STRIKE; }
-        else if (player == 2) { p2Move = Move.STRIKE; }
+        if (player == 1)
+        {
+            //p1Move = Move.STRIKE;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.STRIKE);
+        }
+        else if (player == 2)
+        {
+            //p2Move = Move.STRIKE;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.STRIKE);
+        }
     }
     public void Heavy(int player)
     {
-        if (player == 1) { p1Move = Move.HEAVY; }
-        else if (player == 2) { p2Move = Move.HEAVY; }
+        if (player == 1)
+        {
+            //p1Move = Move.HEAVY;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.HEAVY);
+        }
+        else if (player == 2) {
+            //p2Move = Move.HEAVY;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.HEAVY);
+        }
     }
     public void Cripple(int player)
     {
-        if (player == 1) { p1Move = Move.CRIPPLE; }
-        else if (player == 2) { p2Move = Move.CRIPPLE; }
+        if (player == 1) {
+            //p1Move = Move.CRIPPLE;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.CRIPPLE);
+        }
+        else if (player == 2) {
+            //p2Move = Move.CRIPPLE;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.CRIPPLE);
+        }
     }
     public void Block(int player)
     {
-        if (player == 1) { p1Move = Move.BLOCK; }
-        else if (player == 2) { p2Move = Move.BLOCK; }
+        if (player == 1) {
+            //p1Move = Move.BLOCK;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.BLOCK);
+        }
+        else if (player == 2) {
+            //p2Move = Move.BLOCK;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.BLOCK);
+        }
     }
     public void Grab(int player)
     {
-        if (player == 1) { p1Move = Move.GRAB; }
-        else if (player == 2) { p2Move = Move.GRAB; }
+        if (player == 1) {
+            //p1Move = Move.GRAB;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.GRAB);
+        }
+        else if (player == 2) {
+            //p2Move = Move.GRAB;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.GRAB);
+        }
     }
     public void Shove(int player)
     {
-        if (player == 1) { p1Move = Move.SHOVE; }
-        else if (player == 2) { p2Move = Move.SHOVE; }
+        if (player == 1)
+        {
+            //p1Move = Move.SHOVE;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.SHOVE);
+        }
+        else if (player == 2)
+        {
+            //p2Move = Move.SHOVE;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.SHOVE);
+        }
     }
     public void Counter(int player)
     {
-        if (player == 1) { p1Move = Move.COUNTER; }
-        else if (player == 2) { p2Move = Move.COUNTER; }
+        if (player == 1)
+        {
+            //p1Move = Move.COUNTER;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.COUNTER);
+        }
+        else if (player == 2)
+        {
+            //p2Move = Move.COUNTER;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.COUNTER);
+        }
     }
     public void Leap(int player)
     {
-        if (player == 1) { p1Move = Move.LEAP; }
-        else if (player == 2) { p2Move = Move.LEAP; }
+        if (player == 1)
+        {
+            //p1Move = Move.LEAP;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 1, Move.LEAP);
+        }
+        else if (player == 2)
+        {
+            //p2Move = Move.LEAP;
+            GetComponent<PhotonView>().RPC("UpdateMove", RpcTarget.All, 2, Move.LEAP);
+        }
     }
+    [PunRPC]
+    void UpdateMove (int p, GameManager.Move m)
+    {
+        if (p == 1)
+        {
+            p1Move = m;
+        }
+        else if (p == 2)
+        {
+            p2Move = m;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            print("sending " + p1Move.ToString() + " and " + p2Move.ToString());
+            stream.SendNext(p1Move);
+            stream.SendNext(p2Move);
+            //stream.SendNext(position);
+            Debug.Log("I am the local client" + GetComponent<PhotonView>().ViewID);
+
+        }
+        else
+        {
+
+            p1Move = (GameManager.Move)stream.ReceiveNext();
+            p2Move = (GameManager.Move)stream.ReceiveNext();
+            //position = (Vector3)stream.ReceiveNext();
+            Debug.Log("I am the Remote client" + GetComponent<PhotonView>().ViewID);
+        }
+    }
+
+    
 }
